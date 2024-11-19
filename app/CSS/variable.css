@@ -1,0 +1,15 @@
+:root {
+  --backgroundColor: #a25de4;
+  --textColor: #000000;
+  --white: #ffffff;
+  --gold: #ffd700;
+  --h1: 5rem;
+  --buttonHeight: 6rem;
+  --buttonWidth: 16vw;
+  --containerMarginTop: 5rem;
+}
+
+.dark-mode {
+  --backgroundColor: #661b1b;
+  --textColor: #ffffff;
+}
