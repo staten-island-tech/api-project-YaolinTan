@@ -1,33 +1,20 @@
 import "../CSS/style.css";
 console.log("Hello World");
 
-const URL = "https://stats.nba.com/stats/allstarballotpredictor";
+const url =
+  "https://basketball-data.p.rapidapi.com/tournament/info?tournamentId=89";
+const options = {
+  method: "GET",
+  headers: {
+    "x-rapidapi-key": "b547fab545msh1e011958ac061d1p1962dcjsn97b955f29017",
+    "x-rapidapi-host": "basketball-data.p.rapidapi.com",
+  },
+};
 
-async function getData(URL) {
-  console.log("Fetching data...");
-  try {
-    const response = await fetch(URL);
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-  }
+try {
+  const response = await fetch(url, options);
+  const result = await response.text();
+  console.log(result);
+} catch (error) {
+  console.error(error);
 }
-getData(URL);
-
-/*async function getData(URL) {
-  //fetch returns a promise
-  try {
-    const response = await fetch(URL);
-    //guard clause
-    if (response.status != 200) {
-      throw new Error(response);
-    } else {
-      const data = await response.json();
-      document.querySelector("h1").textContent = data.name;
-    }
-  } catch (error) {
-    console.log(error);
-    alert("sorry");
-  }
-}
-getData();*/
