@@ -15,8 +15,8 @@ const fetchPlayer = async (id) => {
   try {
     const response = await fetch(url, options);
     if (response.ok) {
-      const atheletes = await response.json();
-      console.log(`Data for player ID ${id}:`, atheletes);
+      const athlete = await response.json();
+      console.log(`Data for player ID ${id}:`, athlete);
     } else {
       console.error(
         `Failed to fetch data for ID ${id}. Status: ${response.status}`
@@ -31,9 +31,12 @@ for (let i = 1; i <= 30; i++) {
   fetchPlayer(i);
 }
 
-atheletes.forEach(athelete);
+responses.forEach((response) => {
+  const cardObject = createAthleteCard(response);
+  injectCard(cardObject);
+});
 
-function createAthleteCard(athlete) {
+function createAthleteCard() {
   return {
     age: athlete.age,
     alternateIds: athlete.alternateIds,
@@ -64,4 +67,60 @@ function createAthleteCard(athlete) {
     uid: athlete.uid,
     weight: athlete.weight,
   };
+}
+
+function injectCard(cardObject) {
+  const allCards = document.querySelectorAll(".card-container .card");
+  const totalCards = allCards.length;
+
+  cardContainer.insertAdjacentHTML(
+    "beforeend",
+    ` <div class="card" style="border: 4px solid ${
+      cardObject.contract?.color || "black"
+    }; background-color: ${cardObject.contract?.backgroundColor || "white"};">
+      <h2 class="card-header">${cardObject.displayName}</h2>
+      <div class="stats" id="cardBirthPlace">
+        <h3>Birthplace:</h3>
+        <p class="stat">${cardObject.birthPlace}</p>
+      </div>
+      <div class="stats" id="cardDateOfBirth">
+        <h3>Date of Birth:</h3>
+        <p class="stat">${cardObject.dateOfBirth}</p>
+      </div>
+      <div class="stats" id="cardHeight">
+        <h3>Height:</h3>
+        <p class="stat">${cardObject.displayHeight}</p>
+      </div>
+      <div class="stats" id="cardWeight">
+        <h3>Weight:</h3>
+        <p class="stat">${cardObject.displayWeight}</p>
+      </div>
+      <div class="stats" id="cardCollege">
+        <h3>College:</h3>
+        <p class="stat">${cardObject.college}</p>
+      </div>
+      <div class="stats" id="cardExperience">
+        <h3>Experience:</h3>
+        <p class="stat">${cardObject.experience} years</p>
+      </div>
+      <div class="stats" id="cardPosition">
+        <h3>Position:</h3>
+        <p class="stat">${cardObject.position}</p>
+      </div>
+      <div class="stats" id="cardTeam">
+        <h3>Team:</h3>
+        <p class="stat">${cardObject.teams}</p>
+      </div>
+      <div class="stats" id="cardStatus">
+        <h3>Status:</h3>
+        <p class="stat">${cardObject.status}</p>
+      </div>
+      ${
+        cardObject.headshot !== "No Image Available"
+          ? `<img src="${cardObject.headshot}" alt="${cardObject.displayName}" class="img">`
+          : ""
+      }
+    </div>`
+  );
+  console.log("Number of cards:", totalCards + 1);
 }
