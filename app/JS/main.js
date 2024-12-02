@@ -2,31 +2,11 @@ import "../CSS/style.css";
 
 console.log("Hello World");
 
-document.addEventListener("DOMContentLoaded", async () => {
-  async function fetchLebron() {
-    const url =
-      "https://nba-api-free-data.p.rapidapi.com/nba-player-info/v1/data?id=1966";
-    const options = {
-      method: "GET",
-      headers: {
-        "x-rapidapi-key": "b547fab545msh1e011958ac061d1p1962dcjsn97b955f29017",
-        "x-rapidapi-host": "nba-api-free-data.p.rapidapi.com",
-      },
-    };
-
-    try {
-      const response = await fetch(url, options);
-      const result = await response.json();
-      console.log(result); // Check the structure of the result
-      return [result]; // Return as an array to match card processing expectations
-    } catch (error) {
-      console.error(error);
-      return []; // Return an empty array if there's an error
-    }
-  }
-  const lebronData = await fetchLebron();
+document.querySelector(".button").addEventListener((click) => {
+  event.preventDefault();
   removeCards();
-  lebronData.forEach((player) => {
+  const lebrons = athletes.filter((athlete) => (athlete.id = `2116`));
+  lebrons.forEach((lebron) => {
     const cardObject = createAthleteCard(player);
     injectCard(cardObject);
   });
