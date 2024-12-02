@@ -1,45 +1,8 @@
-import "../CSS/style.css";
-
 console.log("Hello World");
-
-// Team ID to Name Mapping
-const teamNames = {
-  1: "Atlanta Hawks",
-  2: "Boston Celtics",
-  3: "New Orleans Pelicans",
-  4: "Chicago Bulls",
-  5: "Cleveland Cavaliers",
-  6: "Dallas Mavericks",
-  7: "Denver Nuggets",
-  8: "Detroit Pistons",
-  9: "Golden State Warriors",
-  10: "Houston Rockets",
-  11: "Indiana Pacers",
-  12: "LA Clippers",
-  13: "Los Angeles Lakers",
-  14: "Miami Heat",
-  15: "Milwaukee Bucks",
-  16: "Minnesota Timberwolves",
-  17: "Brooklyn Nets",
-  18: "New York Knicks",
-  19: "Orlando Magic",
-  20: "Philadelphia 76ers",
-  21: "Phoenix Suns",
-  22: "Portland Trail Blazers",
-  23: "Sacramento Kings",
-  24: "San Antonio Spurs",
-  25: "Oklahoma City Thunder",
-  26: "Utah Jazz",
-  27: "Washington Wizards",
-  28: "Toronto Raptors",
-  29: "Memphis Grizzlies",
-  30: "Charlotte Hornets",
-};
 
 // Function to fetch player data for a specific team ID
 const fetchPlayer = async (id) => {
-  const url =
-    "https://nba-api-free-data.p.rapidapi.com/nba-team-info/v1/data?id=${id}";
+  const url = `https://nba-api-free-data.p.rapidapi.com/nba-team-info/v1/data?id=${id}`;
   const options = {
     method: "GET",
     headers: {
