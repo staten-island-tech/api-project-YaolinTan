@@ -2,6 +2,36 @@ import "../CSS/style.css";
 
 console.log("Hello World");
 
+document.addEventListener("DOMContentLoaded", async () => {
+  async function fetchLebron() {
+    const url =
+      "https://nba-api-free-data.p.rapidapi.com/nba-player-info/v1/data?id=1966";
+    const options = {
+      method: "GET",
+      headers: {
+        "x-rapidapi-key": "b547fab545msh1e011958ac061d1p1962dcjsn97b955f29017",
+        "x-rapidapi-host": "nba-api-free-data.p.rapidapi.com",
+      },
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      console.log(result); // Check the structure of the result
+      return [result]; // Return as an array to match card processing expectations
+    } catch (error) {
+      console.error(error);
+      return []; // Return an empty array if there's an error
+    }
+  }
+  const lebronData = await fetchLebron();
+  removeCards();
+  lebronData.forEach((player) => {
+    const cardObject = createAthleteCard(player);
+    injectCard(cardObject);
+  });
+});
+
 // Team ID to Name Mapping
 const teamNames = {
   1: "Atlanta Hawks",
@@ -129,58 +159,69 @@ function injectCard(cardObject) {
   cardContainer.insertAdjacentHTML(
     "beforeend",
     `
-    <div class="card" style="border: 4px solid black; background-color: white;">
-      <h2 class="card-header">${cardObject.displayName}</h2>
-      <div class="stats">
-        <h3>Birthplace:</h3>
-        <p>${cardObject.birthPlace}</p>
-      </div>
-      <div class="stats">
-        <h3>Date of Birth:</h3>
-        <p>${cardObject.dateOfBirth}</p>
-      </div>
-      <div class="stats">
-        <h3>Height:</h3>
-        <p>${cardObject.displayHeight}</p>
-      </div>
-      <div class="stats">
-        <h3>Weight:</h3>
-        <p>${cardObject.displayWeight}</p>
-      </div>
-      <div class="stats">
-        <h3>College:</h3>
-        <p>${cardObject.college}</p>
-      </div>
-      <div class="stats">
-        <h3>Experience:</h3>
-        <p>${cardObject.experience} years</p>
-      </div>
-      <div class="stats">
-        <h3>Position:</h3>
-        <p>${cardObject.position}</p>
-      </div>
-      <div class="stats">
-        <h3>Team:</h3>
-        <p>${cardObject.teams}</p>
-      </div>
-      <div class="stats">
-        <h3>Status:</h3>
-        <p>${cardObject.status}</p>
-      </div>
-      ${
-        cardObject.headshot !== "No Image Available"
-          ? `<img src="${cardObject.headshot}" alt="${cardObject.displayName}" class="img">`
-          : ""
-      }
-    </div>`
+  <div class="card border-[0.4rem] border-silver bg-black flex flex-col justify-center items-center box-border text-white m-8 p-4 rounded-[1.5rem] w-[17vw] h-[40rem] hover:scale-[1.2] hover:translate-y-[-3rem] transition-transform duration-500">
+    <h2 class="font-bold text-2xl mb-4">${cardObject.displayName}</h2>
+   <div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">Birthplace:</h3>
+  <p class="ml-4">${cardObject.birthPlace}</p>
+  </div>
+  <div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">Date of Birth:</h3>
+  <p class="ml-4">${cardObject.dateOfBirth}</p>
+</div>
+<div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">Height:</h3>
+  <p class="ml-4">${cardObject.displayHeight}</p>
+</div>
+<div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">Weight:</h3>
+  <p class="ml-4">${cardObject.displayWeight}</p>
+</div>
+<div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">College:</h3>
+  <p class="ml-4">${cardObject.college}</p>
+</div>
+<div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">Experience:</h3>
+  <p class="ml-4">${cardObject.experience} years</p>
+</div>
+<div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">Position:</h3>
+  <p class="ml-4">${cardObject.position}</p>
+</div>
+<div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">Team:</h3>
+  <p class="ml-4">${cardObject.teams}</p>
+</div>
+  <div class="stats mb-2 flex flex-row justify-start items-center">
+  <h3 class="font-bold mr-2">Status:</h3>
+  <p class="ml-4">${cardObject.status}</p>
+</div>
+    ${
+      cardObject.headshot !== "No Image Available"
+        ? `<img src="${cardObject.headshot}" alt="${cardObject.displayName}" class="max-h-[20rem] max-w-[80%] bg-white bg-clip-padding border-[0.1rem] border-red-500 p-4 mt-4 rounded-md">`
+        : ""
+    }
+  </div>
+`
   );
 }
 
-// Main execution function
-(async () => {
-  const allPlayers = await fetchAllPlayers();
-  allPlayers.forEach((athlete) => {
-    const cardObject = createAthleteCard(athlete);
-    injectCard(cardObject);
-  });
-})();
+function removeCards() {
+  const cardContainers = document.querySelectorAll(".card-container");
+  cardContainers.forEach((container) => (container.innerHTML = ""));
+  console.log("Cards removed");
+}
+
+const allCards = document.querySelectorAll(".card-container .card");
+if (allCards.length === 0) {
+  (async () => {
+    const allPlayers = await fetchAllPlayers();
+    allPlayers.forEach((player) => {
+      const cardObject = createAthleteCard(player);
+      injectCard(cardObject);
+    });
+  })();
+}
+
+// Update the function to process the returned LeBron object and create a card

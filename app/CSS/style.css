@@ -17,3 +17,73 @@ body {
   background-color: var(--backgroundColor);
   color: var(--textColor);
 }
+@media (max-width: 1400px) {
+  html,
+  body,
+  * {
+    font-size: 10px;
+  }
+  .card {
+    width: 16vw;
+  }
+}
+@media (max-width: 1200px) {
+  html,
+  body,
+  * {
+    font-size: 10px;
+  }
+  .card {
+    width: 16vw;
+  }
+}
+@media (max-width: 1024px) {
+  html,
+  body,
+  * {
+    font-size: 9px;
+  }
+  .card-container {
+    display: flex;
+    flex: wrap;
+    flex-direction: row;
+    align-items: center;
+  }
+  .card {
+    width: 28vw;
+  }
+}
+@media (max-width: 768px) {
+  :root {
+  }
+  html,
+  body,
+  * {
+    font-size: 8px;
+  }
+  .card-container {
+    display: flex;
+    flex: wrap;
+    flex-direction: row;
+    align-items: center;
+  }
+  .card {
+    width: 40vw;
+  }
+}
+@media (max-width: 480px) {
+  html,
+  body,
+  * {
+    font-size: 5.4px;
+  }
+  .card-container {
+    display: flex;
+    flex: wrap;
+    flex-direction: row;
+    align-items: center;
+  }
+  .card {
+    width: 50vw;
+  }
+}
