@@ -2,15 +2,40 @@ import "../CSS/style.css";
 
 console.log("Hello World");
 
-document.querySelector(".button").addEventListener((click) => {
+document.querySelector(".button").addEventListener("click", (event) => {
   event.preventDefault();
   removeCards();
-  const lebrons = athletes.filter((athlete) => (athlete.id = `2116`));
-  lebrons.forEach((lebron) => {
-    const cardObject = createAthleteCard(player);
-    injectCard(cardObject);
-  });
+  fetchLebron();
 });
+
+const fetchLebron = async () => {
+  const url =
+    "https://nba-api-free-data.p.rapidapi.com/nba-player-info/v1/data?id=1966";
+  const options = {
+    method: "GET",
+    headers: {
+      "x-rapidapi-key": "b547fab545msh1e011958ac061d1p1962dcjsn97b955f29017",
+      "x-rapidapi-host": "nba-api-free-data.p.rapidapi.com",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      console.error(
+        `Failed to fetch data for Player ID. Status: ${response.status}`
+      );
+      return null;
+    }
+
+    const data = await response.json();
+    console.log(`Data for Player ID:`, data);
+    return data;
+  } catch (error) {
+    console.error(`Error fetching data for Player ID:`, error);
+    return null;
+  }
+};
 
 const teamNames = {
   1: "Atlanta Hawks",
@@ -78,7 +103,6 @@ const fetchAllPlayers = async () => {
     fetchPlayer(i + 1)
   );
   const responses = await Promise.all(playerPromises);
-
   return responses
     .filter((response) => response)
     .flatMap((response) => response.athletes || []);
@@ -101,6 +125,7 @@ function extractTeamName(teamsArray) {
 
 function createAthleteCard(athlete) {
   return {
+    playerID: athlete.id,
     displayName: athlete.displayName || "Unknown Player",
     birthPlace: athlete.birthPlace
       ? [
@@ -191,6 +216,7 @@ const allCards = document.querySelectorAll(".card-container .card");
 if (allCards.length === 0) {
   (async () => {
     const allPlayers = await fetchAllPlayers();
+    console.log("All athletes:", allPlayers);
     allPlayers.forEach((player) => {
       const cardObject = createAthleteCard(player);
       injectCard(cardObject);
