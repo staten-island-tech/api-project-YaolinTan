@@ -12,7 +12,6 @@ document.querySelector(".button").addEventListener((click) => {
   });
 });
 
-// Team ID to Name Mapping
 const teamNames = {
   1: "Atlanta Hawks",
   2: "Boston Celtics",
@@ -46,7 +45,6 @@ const teamNames = {
   30: "Charlotte Hornets",
 };
 
-// Function to fetch player data for a specific team ID
 const fetchPlayer = async (id) => {
   const url = `https://nba-api-free-data.p.rapidapi.com/nba-player-listing/v1/data?id=${id}`;
   const options = {
@@ -75,7 +73,6 @@ const fetchPlayer = async (id) => {
   }
 };
 
-// Function to fetch all players from all teams
 const fetchAllPlayers = async () => {
   const playerPromises = Array.from({ length: 30 }, (_, i) =>
     fetchPlayer(i + 1)
@@ -83,11 +80,10 @@ const fetchAllPlayers = async () => {
   const responses = await Promise.all(playerPromises);
 
   return responses
-    .filter((response) => response) // Remove null responses
-    .flatMap((response) => response.athletes || []); // Extract and flatten athlete arrays
+    .filter((response) => response)
+    .flatMap((response) => response.athletes || []);
 };
 
-// Function to extract and map team IDs to their names
 function extractTeamName(teamsArray) {
   if (!Array.isArray(teamsArray) || teamsArray.length === 0) return "No Team";
 
@@ -103,7 +99,6 @@ function extractTeamName(teamsArray) {
     .join(", ");
 }
 
-// Function to create a card object for each athlete
 function createAthleteCard(athlete) {
   return {
     displayName: athlete.displayName || "Unknown Player",
@@ -128,7 +123,6 @@ function createAthleteCard(athlete) {
   };
 }
 
-// Function to render the athlete card into the DOM
 function injectCard(cardObject) {
   const cardContainer = document.querySelector(".card-container");
   if (!cardContainer) {
@@ -203,5 +197,3 @@ if (allCards.length === 0) {
     });
   })();
 }
-
-// Update the function to process the returned LeBron object and create a card
