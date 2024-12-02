@@ -1,7 +1,7 @@
-import "./style.css";
+console.log("Hello World");
+
 const fetchPlayer = async (id) => {
-  const url =
-    "https://nba-api-free-data.p.rapidapi.com/nba-team-info/v1/data?id=22";
+  const url = `https://nba-api-free-data.p.rapidapi.com/nba-team-info/v1/data?id=${id}`;
   const options = {
     method: "GET",
     headers: {
