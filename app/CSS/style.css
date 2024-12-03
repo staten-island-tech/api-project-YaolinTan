@@ -1,4 +1,3 @@
-@import "variable.css";
 @import url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap");
 
 @tailwind base;
@@ -14,29 +13,10 @@ body,
   font-size: 10px;
 }
 body {
-  background-color: var(--backgroundColor);
-  color: var(--textColor);
+  background-color: #a25de4;
+  color: #000000;
 }
-@media (max-width: 1400px) {
-  html,
-  body,
-  * {
-    font-size: 10px;
-  }
-  .card {
-    width: 16vw;
-  }
-}
-@media (max-width: 1200px) {
-  html,
-  body,
-  * {
-    font-size: 10px;
-  }
-  .card {
-    width: 16vw;
-  }
-}
+
 @media (max-width: 1024px) {
   html,
   body,
@@ -49,7 +29,7 @@ body {
     flex-direction: row;
     align-items: center;
   }
-  .card {
+  .theCard {
     width: 28vw;
   }
 }
@@ -67,7 +47,7 @@ body {
     flex-direction: row;
     align-items: center;
   }
-  .card {
+  .theCard {
     width: 40vw;
   }
 }
@@ -83,7 +63,7 @@ body {
     flex-direction: row;
     align-items: center;
   }
-  .card {
+  .theCard {
     width: 50vw;
   }
 }

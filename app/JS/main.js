@@ -5,10 +5,46 @@ console.log("Hello World");
 document.querySelector(".button").addEventListener("click", (event) => {
   event.preventDefault();
   removeCards();
-  fetchLebron();
+  (async () => {
+    const allLebrons = await fetchAllLebron();
+    console.log("Lebron:", allLebrons);
+
+    if (Array.isArray(allLebrons)) {
+      allLebrons.forEach((lebron) => {
+        const cardObject = createLebronCard(lebron);
+        injectCard(cardObject);
+      });
+    } else {
+      console.error("allLebrons is not an array", allLebrons);
+    }
+  })();
 });
 
-const fetchLebron = async () => {
+function createLebronCard(athlete) {
+  return {
+    playerID: athlete.id,
+    displayName: athlete.displayName || "Unknown Player",
+    birthPlace: athlete.birthPlace
+      ? [
+          athlete.birthPlace.city,
+          athlete.birthPlace.state,
+          athlete.birthPlace.country,
+        ]
+          .filter(Boolean)
+          .join(", ") || "Unavailable"
+      : "Unavailable",
+    dateOfBirth: athlete.dateOfBirth || "N/A",
+    displayHeight: athlete.displayHeight || "N/A",
+    displayWeight: athlete.displayWeight || "N/A",
+    college: athlete.college?.name || "N/A",
+    experience: athlete.experience?.years || 0,
+    position: "Forward",
+    teams: "Los Angles Lakers",
+    status: athlete.status?.name || "Unknown Status",
+    headshot: "https://a.espncdn.com/i/headshots/nba/players/full/1966.png",
+  };
+}
+const fetchAllLebron = async () => {
   const url =
     "https://nba-api-free-data.p.rapidapi.com/nba-player-info/v1/data?id=1966";
   const options = {
@@ -27,10 +63,9 @@ const fetchLebron = async () => {
       );
       return null;
     }
-
     const data = await response.json();
-    console.log(`Data for Player ID:`, data);
-    return data;
+    console.log("Data from API:", data);
+    return [data];
   } catch (error) {
     console.error(`Error fetching data for Player ID:`, error);
     return null;
@@ -158,43 +193,43 @@ function injectCard(cardObject) {
   cardContainer.insertAdjacentHTML(
     "beforeend",
     `
-  <div class="card border-[0.4rem] border-silver bg-black flex flex-col justify-center items-center box-border text-white m-8 p-4 rounded-[1.5rem] w-[17vw] h-[40rem] hover:scale-[1.2] hover:translate-y-[-3rem] transition-transform duration-500">
-    <h2 class="font-bold text-2xl mb-4">${cardObject.displayName}</h2>
-   <div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">Birthplace:</h3>
-  <p class="ml-4">${cardObject.birthPlace}</p>
+  <div class="theCard border-[0.4rem] border-silver bg-black flex flex-col justify-center items-center box-border text-white m-[3.2rem] p-[.4rem] rounded-[1.5rem] w-[17vw] h-[40rem] hover:scale-[1.2] hover:translate-y-[-3rem] transition-transform duration-500">
+    <h2 class="font-bold text-2xl mb-[.4rem]">${cardObject.displayName}</h2>
+   <div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">Birthplace:</h3>
+  <p class="border-none">${cardObject.birthPlace}</p>
   </div>
-  <div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">Date of Birth:</h3>
-  <p class="ml-4">${cardObject.dateOfBirth}</p>
+  <div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">Date of Birth:</h3>
+  <p class="border-none">${cardObject.dateOfBirth}</p>
 </div>
-<div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">Height:</h3>
-  <p class="ml-4">${cardObject.displayHeight}</p>
+<div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">Height:</h3>
+  <p class="border-none">${cardObject.displayHeight}</p>
 </div>
-<div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">Weight:</h3>
-  <p class="ml-4">${cardObject.displayWeight}</p>
+<div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">Weight:</h3>
+  <p class="border-none">${cardObject.displayWeight}</p>
 </div>
-<div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">College:</h3>
-  <p class="ml-4">${cardObject.college}</p>
+<div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">College:</h3>
+  <p class="border-none">${cardObject.college}</p>
 </div>
-<div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">Experience:</h3>
-  <p class="ml-4">${cardObject.experience} years</p>
+<div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">Experience:</h3>
+  <p class="border-none">${cardObject.experience} years</p>
 </div>
-<div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">Position:</h3>
-  <p class="ml-4">${cardObject.position}</p>
+<div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">Position:</h3>
+  <p class="border-none">${cardObject.position}</p>
 </div>
-<div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">Team:</h3>
-  <p class="ml-4">${cardObject.teams}</p>
+<div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">Team:</h3>
+  <p class="border-none">${cardObject.teams}</p>
 </div>
-  <div class="stats mb-2 flex flex-row justify-start items-center">
-  <h3 class="font-bold mr-2">Status:</h3>
-  <p class="ml-4">${cardObject.status}</p>
+  <div class="bg-gray-500 flex flex-row justify-center items-center box-content w-[80%]">
+  <h3 class="font-bold mr-[.8rem]">Status:</h3>
+  <p class="border-none">${cardObject.status}</p>
 </div>
     ${
       cardObject.headshot !== "No Image Available"
