@@ -59,7 +59,7 @@ const fetchAllLebron = async () => {
     const response = await fetch(url, options);
     if (!response.ok) {
       console.error(
-        `Failed to fetch data for Player ID. Status: ${response.status}`
+        `Failed to fetch data for Player ID. Status: ${response.status}. Please try again later`
       );
       return null;
     }
@@ -67,7 +67,10 @@ const fetchAllLebron = async () => {
     console.log("Data from API:", data);
     return [data];
   } catch (error) {
-    console.error(`Error fetching data for Player ID:`, error);
+    console.error(
+      `Error fetching data for Player ID:`,
+      error`. Please try again later`
+    );
     return null;
   }
 };
@@ -119,7 +122,7 @@ const fetchPlayer = async (id) => {
     const response = await fetch(url, options);
     if (!response.ok) {
       console.error(
-        `Failed to fetch data for ID ${id}. Status: ${response.status}`
+        `Failed to fetch data for ID ${id}. Status: ${response.status}. Please try again later`
       );
       return null;
     }
@@ -128,7 +131,10 @@ const fetchPlayer = async (id) => {
     console.log(`Data for Team ID ${id}:`, data);
     return data;
   } catch (error) {
-    console.error(`Error fetching data for ID ${id}:`, error);
+    console.error(
+      `Error fetching data for ID ${id}:`,
+      error`. Please try again later`
+    );
     return null;
   }
 };
@@ -185,10 +191,6 @@ function createAthleteCard(athlete) {
 
 function injectCard(cardObject) {
   const cardContainer = document.querySelector(".card-container");
-  if (!cardContainer) {
-    console.error("Card container not found! Check your HTML structure.");
-    return;
-  }
 
   cardContainer.insertAdjacentHTML(
     "beforeend",
