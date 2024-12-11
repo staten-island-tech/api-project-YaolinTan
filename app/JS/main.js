@@ -140,9 +140,12 @@ const fetchPlayer = async (id) => {
 };
 
 const fetchAllPlayers = async () => {
-  const playerPromises = Array.from({ length: 30 }, (_, i) =>
-    fetchPlayer(i + 1)
-  );
+  const playerPromises = [];
+
+  for (let i = 1; i <= 30; i++) {
+    playerPromises.push(fetchPlayer(i));
+  }
+
   const responses = await Promise.all(playerPromises);
   return responses
     .filter((response) => response)
